@@ -26,15 +26,15 @@ async function getPokemon() {
     try {
         const res = await fetch(`/api/pokemon/${encodeURIComponent(value)}`);
 
-        if (!res.ok) {
-            throw new Error("Pokémon no encontrado");
-        }
-
         const data = await res.json();
+
+        if (!res.ok) {
+            throw new Error(data.error || "Pokémon no encontrado");
+        }
 
 
         nameEl.textContent = data.nombre;
-        imgEl.src = data.imagen;
+        imgEl.src = data.imagen || "";
 
         typeEl.textContent = data.tipos.join(", ");
         weightEl.textContent = data.peso;

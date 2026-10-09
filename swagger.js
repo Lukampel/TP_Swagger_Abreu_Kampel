@@ -72,7 +72,7 @@ const doc = {
         type: "object",
         description: "Listado paginado de Pokémon",
         properties: {
-          total: { type: "integer", description: "Cantidad total de Pokémon existentes", example: 1302 },
+          total: { type: "integer", description: "Cantidad total de Pokémon existentes", example: 1351 },
           limit: { type: "integer", description: "Cantidad pedida por página", example: 5 },
           offset: { type: "integer", description: "Posición desde la que se empezó a listar", example: 0 },
           resultados: { type: "array", items: { $ref: "#/components/schemas/ResumenPokemon" } },

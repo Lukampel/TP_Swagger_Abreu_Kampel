@@ -39,52 +39,25 @@
             "in": "query",
             "description": "Cantidad de resultados (1 a 100). Por defecto 20",
             "required": false,
+            "example": 5,
             "schema": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "integer"
-                },
-                "minimum": {
-                  "type": "number",
-                  "example": 1
-                },
-                "maximum": {
-                  "type": "number",
-                  "example": 100
-                },
-                "default": {
-                  "type": "number",
-                  "example": 20
-                }
-              }
-            },
-            "example": 5
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
           },
           {
             "name": "offset",
             "in": "query",
             "description": "Cantidad de resultados a saltear. Por defecto 0",
             "required": false,
+            "example": 0,
             "schema": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "integer"
-                },
-                "minimum": {
-                  "type": "number",
-                  "example": 0
-                },
-                "default": {
-                  "type": "number",
-                  "example": 0
-                }
-              }
-            },
-            "example": 0
+              "type": "integer",
+              "minimum": 0,
+              "default": 0
+            }
           }
         ],
         "responses": {
@@ -117,6 +90,9 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": "No se pudo conectar con la PokeAPI"
                 }
               }
             }
@@ -173,6 +149,9 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": "No se pudo conectar con la PokeAPI"
                 }
               }
             }
@@ -229,6 +208,9 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": "No se pudo conectar con la PokeAPI"
                 }
               }
             }
@@ -312,6 +294,9 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": "Falta el header x-api-key o la clave es incorrecta"
                 }
               }
             }
@@ -335,6 +320,9 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": "No se pudo conectar con la PokeAPI"
                 }
               }
             }
@@ -468,6 +456,9 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": "Falta el header x-api-key o la clave es incorrecta"
                 }
               }
             }
@@ -478,6 +469,9 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": "No hay ningún integrante con id 1"
                 }
               }
             }
@@ -538,6 +532,9 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": "El id debe ser un entero positivo"
                 }
               }
             }
@@ -548,6 +545,9 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": "Falta el header x-api-key o la clave es incorrecta"
                 }
               }
             }
@@ -558,6 +558,9 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": "No hay ningún integrante con id 1"
                 }
               }
             }
@@ -653,7 +656,7 @@
           "total": {
             "type": "integer",
             "description": "Cantidad total de Pokémon existentes",
-            "example": 1302
+            "example": 1351
           },
           "limit": {
             "type": "integer",

@@ -257,7 +257,7 @@ Se debe enviar al menos una de las dos.
 
 ## 6. Pruebas realizadas
 
-Todas las pruebas se hicieron desde Swagger UI con **Try it out → Execute**. Antes de las pruebas de Equipo se cargó la clave `pokedex123` con **Authorize**.
+Las pruebas se ejecutaron contra la API en funcionamiento. Se pueden repetir desde Swagger UI con **Try it out → Execute**; para las de Equipo primero hay que cargar la clave `pokedex123` con **Authorize**.
 
 | # | Prueba | Request | Código esperado | Código obtenido | Respuesta |
 |---|---|---|---|---|---|
@@ -283,24 +283,25 @@ En todas se verificó que la solicitud se ejecutó, que el body enviado era el e
 
 ## 7. Capturas
 
-> Guardar las imágenes en `Documentacion/capturas/` con estos nombres.
-
 ### Interfaz principal de Swagger
-![Swagger UI completo](capturas/01_swagger_ui.png)
+Vista general de `/api-docs` con los 8 endpoints agrupados por tag (Pokémon, Tipos y Equipo), el selector de servidor y el botón **Authorize**. Los endpoints que requieren API key muestran un candado.
 
-### Endpoints documentados
-![Detalle de GET /api/pokemon/{nombreOId}](capturas/02_endpoint_get_pokemon.png)
-![Detalle de POST /api/equipo](capturas/03_endpoint_post_equipo.png)
-![Modelos (Schemas)](capturas/04_schemas.png)
+![Swagger UI](capturas/01_swagger_ui.png)
 
-### Pruebas y respuestas
-![Authorize con la API key](capturas/05_authorize.png)
-![Prueba GET con parámetros](capturas/06_prueba_get_lista.png)
-![Prueba GET por nombre](capturas/07_prueba_get_pikachu.png)
-![Prueba POST 201](capturas/08_prueba_post.png)
-![Prueba PUT 200](capturas/09_prueba_put.png)
-![Prueba DELETE 200](capturas/10_prueba_delete.png)
-![Prueba de error 404](capturas/11_prueba_404.png)
+### Endpoint documentado: parámetros
+`GET /api/pokemon` con su descripción y los parámetros de consulta `limit` y `offset` (tipo integer, valor por defecto y ejemplo).
+
+![Parámetros de GET /api/pokemon](capturas/02_endpoint_get_lista.png)
+
+### Endpoint documentado: respuestas
+Respuestas documentadas del mismo endpoint: 200 (con el modelo ListaPokemon), 400 y 502, cada una con su ejemplo.
+
+![Respuestas de GET /api/pokemon](capturas/03_endpoint_respuestas.png)
+
+### Modelos
+Sección Schemas con los 8 modelos de la API.
+
+![Schemas](capturas/04_schemas.png)
 
 ---
 
@@ -315,3 +316,5 @@ En todas se verificó que la solicitud se ejecutó, que el body enviado era el e
 | Al ejecutar el servidor en la red del colegio, todas las consultas a la PokeAPI fallaban con `SELF_SIGNED_CERT_IN_CHAIN` (la red revisa el tráfico HTTPS con un certificado propio que Windows acepta pero Node.js no). | Se inicia Node con `--use-system-ca` (incluido en `npm start`) para que use los certificados de Windows. Además, si la PokeAPI no responde, la API devuelve un **502** con un mensaje claro en lugar de cortarse. |
 | Por defecto swagger-autogen genera los modelos a partir de un ejemplo y no permite describir cada propiedad. | Definimos los modelos con `@schemas` en `swagger.js`, que acepta JSON Schema completo (descripción, tipo, mínimo, máximo). |
 | Hacía falta que el body de POST y PUT apareciera como JSON editable en Swagger UI. | Generamos la especificación en OpenAPI 3.0 (`openapi: "3.0.0"`) y usamos `#swagger.requestBody`. |
+| En Swagger UI, los parámetros `limit` y `offset` aparecían como tipo `object` en vez de `integer`: swagger-autogen tomaba el `schema` del parámetro como si fuera un ejemplo. | Usamos `'@schema'` en lugar de `schema` en esos parámetros, para que swagger-autogen copie el esquema tal cual. |
+| Las respuestas de error sin ejemplo propio (401, 502, etc.) mostraban "Pokémon no encontrado", el ejemplo general del modelo `Error`. | Agregamos a cada respuesta de error su ejemplo con el mensaje real que devuelve la API. |

@@ -11,7 +11,9 @@ const MAX_EQUIPO = 6;
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerFile));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerFile, {
+  swaggerOptions: { defaultModelExpandDepth: 3 },
+}));
 
 // ---------- Helpers ----------
 
@@ -64,11 +66,11 @@ app.get("/api/pokemon", async (req, res) => {
      #swagger.description = 'Devuelve un listado paginado de Pokémon obtenido de la PokeAPI.'
      #swagger.parameters['limit'] = {
        in: 'query', description: 'Cantidad de resultados (1 a 100). Por defecto 20',
-       required: false, schema: { type: 'integer', minimum: 1, maximum: 100, default: 20 }, example: 5
+       required: false, '@schema': { type: 'integer', minimum: 1, maximum: 100, default: 20 }, example: 5
      }
      #swagger.parameters['offset'] = {
        in: 'query', description: 'Cantidad de resultados a saltear. Por defecto 0',
-       required: false, schema: { type: 'integer', minimum: 0, default: 0 }, example: 0
+       required: false, '@schema': { type: 'integer', minimum: 0, default: 0 }, example: 0
      }
      #swagger.responses[200] = {
        description: 'Listado obtenido correctamente',
@@ -81,7 +83,8 @@ app.get("/api/pokemon", async (req, res) => {
      }
      #swagger.responses[502] = {
        description: 'No se pudo obtener la información de la PokeAPI',
-       content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } }
+       content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' },
+         example: { error: 'No se pudo conectar con la PokeAPI' } } }
      }
   */
   const limit = req.query.limit === undefined ? 20 : Number(req.query.limit);
@@ -127,7 +130,8 @@ app.get("/api/pokemon/:nombreOId", async (req, res) => {
      }
      #swagger.responses[502] = {
        description: 'No se pudo obtener la información de la PokeAPI',
-       content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } }
+       content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' },
+         example: { error: 'No se pudo conectar con la PokeAPI' } } }
      }
   */
   const valor = encodeURIComponent(req.params.nombreOId.toLowerCase().trim());
@@ -156,7 +160,8 @@ app.get("/api/tipos/:nombreOId", async (req, res) => {
      }
      #swagger.responses[502] = {
        description: 'No se pudo obtener la información de la PokeAPI',
-       content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } }
+       content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' },
+         example: { error: 'No se pudo conectar con la PokeAPI' } } }
      }
   */
   const valor = encodeURIComponent(req.params.nombreOId.toLowerCase().trim());
@@ -244,7 +249,8 @@ app.post("/api/equipo", requiereApiKey, async (req, res) => {
      }
      #swagger.responses[401] = {
        description: 'Falta la API key o es incorrecta',
-       content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } }
+       content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' },
+         example: { error: 'Falta el header x-api-key o la clave es incorrecta' } } }
      }
      #swagger.responses[404] = {
        description: 'El Pokémon indicado no existe',
@@ -253,7 +259,8 @@ app.post("/api/equipo", requiereApiKey, async (req, res) => {
      }
      #swagger.responses[502] = {
        description: 'No se pudo validar el Pokémon contra la PokeAPI',
-       content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } }
+       content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' },
+         example: { error: 'No se pudo conectar con la PokeAPI' } } }
      }
   */
   const { pokemon, apodo, nivel = 5 } = req.body ?? {};
@@ -309,11 +316,13 @@ app.put("/api/equipo/:id", requiereApiKey, (req, res) => {
      }
      #swagger.responses[401] = {
        description: 'Falta la API key o es incorrecta',
-       content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } }
+       content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' },
+         example: { error: 'Falta el header x-api-key o la clave es incorrecta' } } }
      }
      #swagger.responses[404] = {
        description: 'No existe un integrante con ese id',
-       content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } }
+       content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' },
+         example: { error: 'No hay ningún integrante con id 1' } } }
      }
   */
   const miembro = buscarMiembro(req.params.id);
@@ -347,15 +356,18 @@ app.delete("/api/equipo/:id", requiereApiKey, (req, res) => {
      }
      #swagger.responses[400] = {
        description: 'El id no es un entero positivo',
-       content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } }
+       content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' },
+         example: { error: 'El id debe ser un entero positivo' } } }
      }
      #swagger.responses[401] = {
        description: 'Falta la API key o es incorrecta',
-       content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } }
+       content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' },
+         example: { error: 'Falta el header x-api-key o la clave es incorrecta' } } }
      }
      #swagger.responses[404] = {
        description: 'No existe un integrante con ese id',
-       content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } }
+       content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' },
+         example: { error: 'No hay ningún integrante con id 1' } } }
      }
   */
   const miembro = buscarMiembro(req.params.id);
@@ -375,6 +387,9 @@ app.use((err, req, res, next) => {
   }
   if (err.type === "entity.parse.failed") {
     return res.status(400).json({ error: "El body no es un JSON válido" });
+  }
+  if (err.status >= 400 && err.status < 500) {
+    return res.status(err.status).json({ error: "Solicitud inválida" });
   }
   console.error(err);
   res.status(500).json({ error: "Error interno del servidor" });
