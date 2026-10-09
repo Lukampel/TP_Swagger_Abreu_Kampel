@@ -24,7 +24,7 @@ async function getPokemon() {
     loading.style.display = "block"; 
 
     try {
-        const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${value}`);
+        const res = await fetch(`/api/pokemon/${encodeURIComponent(value)}`);
 
         if (!res.ok) {
             throw new Error("Pokémon no encontrado");
@@ -33,12 +33,12 @@ async function getPokemon() {
         const data = await res.json();
 
 
-        nameEl.textContent = data.name;
-        imgEl.src = data.sprites.front_default;
+        nameEl.textContent = data.nombre;
+        imgEl.src = data.imagen;
 
-        typeEl.textContent = data.types.map(t => t.type.name).join(", ");
-        weightEl.textContent = data.weight;
-        heightEl.textContent = data.height;
+        typeEl.textContent = data.tipos.join(", ");
+        weightEl.textContent = data.peso;
+        heightEl.textContent = data.altura;
 
     } catch (err) {
         error.textContent = err.message;

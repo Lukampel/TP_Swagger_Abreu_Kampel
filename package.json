@@ -1,0 +1,27 @@
+{
+  "name": "tp05_dai_pita_wolman_kampel",
+  "version": "1.0.0",
+  "description": "Mini Pokédex: API Express que consume la PokeAPI y administra un equipo Pokémon, documentada con Swagger",
+  "main": "app.js",
+  "scripts": {
+    "swagger": "node swagger.js",
+    "start": "node swagger.js && node --use-system-ca app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RamiroPita11/TP05_DAI_Pita_Wolman_Kampel.git"
+  },
+  "keywords": [],
+  "author": "Abreu, Kampel",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/RamiroPita11/TP05_DAI_Pita_Wolman_Kampel/issues"
+  },
+  "homepage": "https://github.com/RamiroPita11/TP05_DAI_Pita_Wolman_Kampel#readme",
+  "dependencies": {
+    "express": "^5.2.1",
+    "swagger-autogen": "^2.23.7",
+    "swagger-ui-express": "^5.0.1"
+  }
+}
